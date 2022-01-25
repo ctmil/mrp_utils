@@ -57,6 +57,33 @@ class MrpBom(models.Model):
                 product_from=product_from,
                 product_to=product_to)
 
+    # Duplicate methods
+
+
+    def _duplicate_bom(self):
+        for bom_line in self.bom_line_ids:
+            if bom_line.product_id.bom_ids:
+                bom = bom_line.product_id.bom_ids[0]
+                product = bom_line.product_id
+                new_product = product.copy(default = {'name': str(product.display_name) + ' (copy)'})
+                new_product_tmpl = new_product.product_tmpl_id
+                new_bom = bom.copy(default={'code': str(bom.code) + ' (copy)',
+                    'product_tmpl_id': new_product_tmpl.id})
+                bom_line.product_id = new_product.id
+                new_bom._duplicate_bom()
+        return True
+
+
+
+    def duplicate_bom(self):
+        self.ensure_one()
+        product = self.product_tmpl_id
+        new_product_tmpl = product.copy({'name': str(product.name) + ' (copy)'})
+        new_bom = self.copy(default={'code': str(self.code) + ' (copy)',
+            'product_tmpl_id': new_product_tmpl.id})
+        new_bom._duplicate_bom()
+
+
     def replace_components(self):
         self.ensure_one()
         if not self.bom_line_ids:

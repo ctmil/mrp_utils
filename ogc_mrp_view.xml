@@ -12,6 +12,10 @@
 					string="Replace components"
 					type="object"
 					/>
+				<button name="duplicate_bom"
+					string="Duplicate BoM"
+					type="object"
+					/>
 			</header>
 		</xpath>
 		<field name="company_id" position="after">
