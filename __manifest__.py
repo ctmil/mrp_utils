@@ -7,11 +7,14 @@
     'license': 'AGPL-3',
     'summary': '',
     'depends': [
-        'mrp'
+        'mrp',
+        'mail',
+        'utm',
     ],
     'data': [
         'ogc_mrp_view.xml',
-        'wizard/wizard_view.xml'
+        'wizard/wizard_view.xml',
+        'security/ir.model.access.csv'
         ],
     'installable': True,
     'auto_install': False,

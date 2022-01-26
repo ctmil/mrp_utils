@@ -27,4 +27,83 @@
         </field>
 </record>
 
+	
+        <record id="mrp_bom_change_form_view" model="ir.ui.view">
+            <field name="name">mrp.bom.change.form.view</field>
+            <field name="model">mrp.bom.change</field>
+            <field name="arch" type="xml">
+		<form string="Changes to Bill of Materials">
+			    <header>
+				    <button name="btn_replace" type="object" 
+					    states="draft" string="Replace" />
+				    <field name="state" widget="statusbar" />
+			    </header>
+			    <sheet>
+				    <group>
+        			            <field name="name"/>
+					    <field name="bom_id" 
+						    options="{'no_quick_create':True,'no_create_edit':True, 'no_create': True}" />
+			                    <field name="product_tmpl_id" readonly="1"/>
+	        		            <field name="date"/>
+				    </group>
+				    <notebook>
+					    <page string="Products">
+						    <field name="line_ids" >
+							    <tree editable="bottom">
+								    <field name="product_from" 
+									    options="{'no_quick_create':True,'no_create_edit':True, 'no_create': True}" />
+								    <field name="product_to" 
+									    options="{'no_quick_create':True,'no_create_edit':True, 'no_create': True}" />
+								</tree>
+							</field>
+					</page>
+					<page string="Log">
+						<group>
+							<field name="created_main_bom_id" readonly="1" />
+							<field name="bom_ids" readonly="1" />
+							<field name="product_tmpl_ids" readonly="1" />
+						</group>
+					</page>
+				</notebook>
+			</sheet>
+			<div class="oe_chatter">
+                	    <field name="message_follower_ids" widget="mail_followers"/>
+        	            <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+                	</div>
+                </form>
+            </field>
+        </record>
+
+
+	
+        <record id="mrp_bom_change_tree_view" model="ir.ui.view">
+            <field name="name">mrp.bom.change.tree</field>
+            <field name="model">mrp.bom.change</field>
+            <field name="arch" type="xml">
+                <tree string="Changes to Bill of Materials">
+                    <field name="product_tmpl_id"/>
+                    <field name="name"/>
+                    <field name="bom_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="mrp_bom_change_action" model="ir.actions.act_window">
+            <field name="name">Changes to Bills of Materials</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.bom.change</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_mrp_bom_change"
+            action="mrp_bom_change_action"
+            parent="mrp.menu_mrp_bom"
+            sequence="20"/>
+
+
 </odoo>

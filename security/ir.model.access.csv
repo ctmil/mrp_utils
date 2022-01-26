@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bom_replace_wizard,bom.replace.wizard,model_bom_replace_wizard,mrp.group_mrp_user,1,1,1,1
+access_mrp_bom_change,mrp.bom.change,model_mrp_bom_change,mrp.group_mrp_user,1,1,1,1
+access_mrp_bom_change_line,mrp.bom.change.line,model_mrp_bom_change_line,mrp.group_mrp_user,1,1,1,1
