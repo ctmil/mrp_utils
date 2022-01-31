@@ -18,12 +18,12 @@
 					/>
 			</header>
 		</xpath>
-		<field name="company_id" position="after">
+		<!-- field name="company_id" position="after">
 			<button name="get_bom_products"
 				type="object"
 				string="get_bom_products" />
 			<field name="res_get_bom_products" />
-		</field>
+		</field -->
         </field>
 </record>
 
