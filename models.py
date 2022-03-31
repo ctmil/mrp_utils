@@ -74,9 +74,9 @@ class MrpBom(models.Model):
                 bom = bom_line.product_id.bom_ids[0]
                 product_tmpl = bom_line.product_id.product_tmpl_id
                 new_product_tmpl = product_tmpl.copy(default = {
-                    'name': str(product_tmpl.name) + suffix, 
+                    'name': str(product_tmpl.name), 
                     'change_id': change_id,
-                    'default_code': change.name,
+                    'default_code': suffix + ' ' + str(product_tmpl.name),
                     'source_product_tmpl_id': product_tmpl.id,
                     })
                 new_product = new_product_tmpl.product_variant_ids[0]
@@ -98,13 +98,15 @@ class MrpBom(models.Model):
         product = self.product_tmpl_id
         change = self.env['mrp.bom.change'].browse(change_id)
         suffix = ' (' + change.name + ')'
+        default_code = suffix + ' ' + product.name
         new_product_tmpl = product.copy({
-            'name': str(product.name) + suffix,
+            'name': str(product.name),
+            'default_code': default_code,
             'change_id': change_id,
             'source_product_tmpl_id': product.id,
             })
         new_bom = self.copy(default={
-            'code': str(self.code) + suffix,
+            'code': self.code and str(self.code) + suffix,
             'product_tmpl_id': new_product_tmpl.id,
             'change_id': change_id,
             'source_bom_id': self.id,
@@ -144,6 +146,10 @@ class MrpBomChange(models.Model):
         self.ensure_one()
         if not self.bom_id:
             raise ValidationError(_('You have to select BoM'))
+        if not self.name:
+            raise ValidationError(_('You have to enter a name'))
+        if not self.line_ids:
+            raise ValidationError(_('You have to enter replacement products'))
         bom_id = self.bom_id
         bom_id.duplicate_bom(change_id = self.id)
         if self.line_ids:

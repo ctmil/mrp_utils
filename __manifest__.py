@@ -1,7 +1,7 @@
 {
     'name': 'MRP - Tools',
-    'version': '13.0.1.0.0',
-    'author': 'Moldeo Interactive',
+    'version': '15',
+    'author': 'www.fletscher.de',
     'category': 'Sales',
     'sequence': 14,
     'license': 'AGPL-3',
@@ -10,6 +10,7 @@
         'mrp',
         'mail',
         'utm',
+        
     ],
     'data': [
         'ogc_mrp_view.xml',
