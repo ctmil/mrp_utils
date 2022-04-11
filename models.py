@@ -76,13 +76,13 @@ class MrpBom(models.Model):
                 new_product_tmpl = product_tmpl.copy(default = {
                     'name': str(product_tmpl.name), 
                     'change_id': change_id,
-                    'default_code': suffix + ' ' + str(product_tmpl.name),
+                    'default_code': product_tmpl.default_code,
                     'source_product_tmpl_id': product_tmpl.id,
                     })
                 new_product = new_product_tmpl.product_variant_ids[0]
                 new_product.change_id = change_id
                 new_product.source_product_id = bom_line.product_id
-                new_bom = bom.copy(default={'code': str(bom.code) + suffix,
+                new_bom = bom.copy(default={'code': str(bom.code),
                     'product_tmpl_id': new_product_tmpl.id,
                     'change_id': change_id,
                     'source_bom_id': bom.id,
@@ -98,7 +98,7 @@ class MrpBom(models.Model):
         product = self.product_tmpl_id
         change = self.env['mrp.bom.change'].browse(change_id)
         suffix = ' (' + change.name + ')'
-        default_code = suffix + ' ' + product.name
+        default_code = product.name
         new_product_tmpl = product.copy({
             'name': str(product.name),
             'default_code': default_code,
@@ -106,7 +106,7 @@ class MrpBom(models.Model):
             'source_product_tmpl_id': product.id,
             })
         new_bom = self.copy(default={
-            'code': self.code and str(self.code) + suffix,
+            'code': self.code and str(self.code),
             'product_tmpl_id': new_product_tmpl.id,
             'change_id': change_id,
             'source_bom_id': self.id,

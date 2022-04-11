@@ -12,10 +12,6 @@
 					string="Replace components"
 					type="object"
 					/>
-				<button name="duplicate_bom"
-					string="Duplicate BoM"
-					type="object"
-					/>
 			</header>
 		</xpath>
 		<!-- field name="company_id" position="after">
@@ -105,5 +101,27 @@
             parent="mrp.menu_mrp_bom"
             sequence="20"/>
 
+        <record id="bom_change_product_template_tree" model="ir.ui.view">
+            <field name="name">bom.change.product.template.tree</field>
+	    <field name="model">product.template</field>
+	    <field name="inherit_id" ref="product.product_template_tree_view"></field>
+	    <field name="arch" type="xml">
+		    <field name="active" position="after">
+			    <field name="change_id" optional="hide" string="BoM Change"/>
+			</field>
+            </field>
+        </record>
+
+
+        <record id="bom_change_mrp_bom_tree" model="ir.ui.view">
+            <field name="name">bom.change.mrp.bom.tree</field>
+	    <field name="model">mrp.bom</field>
+	    <field name="inherit_id" ref="mrp.mrp_bom_tree_view"></field>
+	    <field name="arch" type="xml">
+		    <field name="product_uom_id" position="after">
+			    <field name="change_id" optional="hide" string="BoM Change"/>
+			</field>
+            </field>
+        </record>
 
 </odoo>
