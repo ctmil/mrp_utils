@@ -20,6 +20,10 @@ class MrpBom(models.Model):
 
     # Demo methods
 
+    @api.model
+    def demo_cron(self):
+        import pdb;pdb.set_trace()
+
     def _get_bom_products(self, value=0):
         for bom_line in self.bom_line_ids:
             if not bom_line.product_id.bom_ids:
@@ -74,15 +78,16 @@ class MrpBom(models.Model):
                 bom = bom_line.product_id.bom_ids[0]
                 product_tmpl = bom_line.product_id.product_tmpl_id
                 new_product_tmpl = product_tmpl.copy(default = {
-                    'name': str(product_tmpl.name), 
+                    'name': product_tmpl.name, 
                     'change_id': change_id,
-                    'default_code': product_tmpl.default_code,
+                    'default_code': product_tmpl.default_code or '',
                     'source_product_tmpl_id': product_tmpl.id,
                     })
                 new_product = new_product_tmpl.product_variant_ids[0]
                 new_product.change_id = change_id
                 new_product.source_product_id = bom_line.product_id
-                new_bom = bom.copy(default={'code': str(bom.code),
+                new_bom = bom.copy(default={
+                    'code': bom.code or '',
                     'product_tmpl_id': new_product_tmpl.id,
                     'change_id': change_id,
                     'source_bom_id': bom.id,
@@ -98,15 +103,15 @@ class MrpBom(models.Model):
         product = self.product_tmpl_id
         change = self.env['mrp.bom.change'].browse(change_id)
         suffix = ' (' + change.name + ')'
-        default_code = product.name
+        default_code = product.default_code or ''
         new_product_tmpl = product.copy({
-            'name': str(product.name),
+            'name': change.name,
             'default_code': default_code,
             'change_id': change_id,
             'source_product_tmpl_id': product.id,
             })
         new_bom = self.copy(default={
-            'code': self.code and str(self.code),
+            'code': self.code or '',
             'product_tmpl_id': new_product_tmpl.id,
             'change_id': change_id,
             'source_bom_id': self.id,
