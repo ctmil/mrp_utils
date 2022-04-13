@@ -78,7 +78,7 @@ class MrpBom(models.Model):
                 bom = bom_line.product_id.bom_ids[0]
                 product_tmpl = bom_line.product_id.product_tmpl_id
                 new_product_tmpl = product_tmpl.copy(default = {
-                    'name': product_tmpl.name, 
+                    'name': product_tmpl.name + ' ' + change.name, 
                     'change_id': change_id,
                     'default_code': product_tmpl.default_code or '',
                     'source_product_tmpl_id': product_tmpl.id,
